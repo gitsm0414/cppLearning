@@ -118,3 +118,36 @@ inline int add(int a, int b){
 컴파일러가 "이 함수는 여러 파일에 정의가 있어도 괜찮다"라고 이해한다.
 
 그래서 multiple definition 에러가 안 난다.
+
+<C++에서 난수 생성하기>
+C++에서 랜덤수를 얻는 방법은 크게 두 가지가 있다.
+
+1. 옛날방식(간단)
+
+#include <cstdlib>
+#include <ctime>
+
+int main(){
+    srand(time(NULL));   // 랜덤 시드 설정
+
+    int r = rand();      // 랜덤 값
+}
+
+예를 들어 0~9 랜덤: int r = rand() % 10;
+
+단점: 분포가 좋지 않음, 요즘 C++에서는 권장되지 않음
+그래도 PS나 간단한 테스트에서는 자주 쓴다.
+
+2. C++11 이후의 정식 방법(추천)
+
+#include <random>
+
+int main(){
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(1, 10);
+
+    int r = dist(gen);
+}
+
+이건 난수 품질이 좋고 범위 지정이 정확하다.
